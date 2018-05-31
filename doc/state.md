@@ -4,95 +4,87 @@
 
 ### Variabili
 
-| var    | state |
-| ------ | ----- |
-| chan   | 1     |
-| auto   | on    |
-| rate   | slow  |
-| filter | on    |
-|rel        | off |
-|unità | query? |
-|shift | off |
-|display |  |
+| var     | state  |
+| ------  | -----  |
+| chan    | 1      |
+| auto    | on     |
+| rate    | slow   |
+| filter  | on     |
+| rel     | off    |
+| unità   | query? |
+| shift   | off    |
+| display |        |
 
 ### Passaggi di stato
 
 | button | next state                                   |
 | ------ | -------------------------------------------- |
-| DCV2   | 2                                            |
-| shift  | 1                                            |
+| DCV1   | 0                                            |
+| shift  | 2.1                                          |
 | rel    | 0: rel -> !rel                               |
 | filt   | 0: filter --> !filter                        |
 | up     | 0: unità --> query?x10<br />    auto --> off |
 | down   | 0: unità --> query?:10<br />    auto --> off |
-| auto   | 0: auto --> on                               |
+| auto   | 0: auto --> !auto                            |
 | rate   | 0: rate --> rate++                           |
 | digits | display --> display++                        |
-| temp1  | 4                                            |
-| temp2  | 6                                            |
-| v1/v2  | 8                                            |
-| step   | 9                                            |
-| scan   | 10                                           |
+| temp1  | 3                                            |
+| temp2  | 4                                            |
+| v1/v2  | 5                                            |
+| step   | 6                                            |
+| scan   | 7                                            |
 
-## 1 - ch1_shift
+## 1 - shift
 
 ### Variabili
 
 | var    | state |
 | ------ | ----- |
-| chan   | 1   |
-| auto   | on    |
-| rate   | rate |
-| filter | on    |
-|rel        | off |
-|unità | query? |
-|shift | on |
+| shift  | on    |
 
 ### Passaggi di stato
 
 | button | next state |
 | ------ | ---------- |
-| v1-v2  | 11         |
-| type   | 12         |
-| tcoupl | 17         |
+| v1/v2  | 9          |
+| filt   | 10         |
+| temp2  | 15         |
+| acal   | 23         |
 
 ## 2 - ch2
 
 ### Variabili
 
-| var    | state |
-| ------ | ----- |
-| chan   | 2    |
-| auto   | on    |
-| rate   | rate |
-| filter | on    |
-|rel        | off |
-|unità | query? |
-|shift | off |
+| var    | state  |
+| ------ | -----  |
+| chan   | 2      |
+| auto   | on     |
+| rate   | query? |
+| filter | on     |
+| rel    | off    |
+| unità  | query? |
+| shift  | off    |
 
-## 3 - ch2_shift
+### Passagi di stato
 
-### Variabili
+| button | next state                                   |
+| ------ | -------------------------------------------- |
+| DCV2   | 2                                            |
+| shift  | 2.1                                          |
+| rel    | 0: rel -> !rel                               |
+| filt   | 0: filter --> !filter                        |
+| up     | 0: unità --> query?x10<br />    auto --> off |
+| down   | 0: unità --> query?:10<br />    auto --> off |
+| auto   | 0: auto --> !auto                            |
+| rate   | 0: rate --> rate++                           |
+| digits | display --> display++                        |
+| temp1  | 3                                            |
+| temp2  | 4                                            |
+| v1/v2  | 5                                            |
+| step   | 6                                            |
+| scan   | 7                                            |
 
-| var    | state |
-| ------ | ----- |
-| chan   | 2    |
-| auto   | on    |
-| rate   | rate |
-| filter | on    |
-|rel        | off |
-|unità | query? |
-|shift | on |
-
-### Passaggi di stato
-
-| button | next state |
-| ------ | ---------- |
-| v1-v2  | 11         |
-| type   | 12         |
-| tcoupl | 17         |
-
-## 4 - temp1
+## 3 - temp1
 
 ### Variabili
 
@@ -104,43 +96,41 @@
 | unità  | query? |
 | shift  | off    |
 
-## 5 - temp1_shift
+### Passagi di stato
 
-### Variabili
+| button | next state                                   |
+| ------ | -------------------------------------------- |
+| DCV1   | 0                                            |
+| DCV2   | 2                                            |
+| shift  | 3.1                                          |
+| temp2  | 4                                            |
+| filt   | 0: filter --> !filter                        |
+| v1/v2  | 5                                            |
 
-| var    | state  |
-| ------ | ------ |
-| chan   | 1      |
-| rate   | rate   |
-| filter | on     |
-| unità  | query? |
-| shift  | off    |
-
-## 6 - temp2
-
-### Variabili
-
-| var    | state  |
-| ------ | ------ |
-| chan   | 2      |
-| rate   | rate   |
-| filter | on     |
-| unità  | query? |
-| shift  | off    |
-
-## 7 - temp2_shift
+## 4 - temp2
 
 ### Variabili
 
 | var    | state  |
 | ------ | ------ |
 | chan   | 2      |
-| rate   | rate |
+| rate   | rate   |
 | filter | on     |
 | unità  | query? |
-| shift  | on    |
+| shift  | off    |
 
-## 8 - v1/v2
+### Passagi di stato
+
+| button | next state            |
+| ------ | --------------------- |
+| DCV1   | 0                     |
+| DCV2   | 2                     |
+| shift  | 4.1                   |
+| temp1  | 3                     |
+| filt   | 0: filter --> !filter |
+| v1/v2  | 5                     |
+
+## 5 - v1/v2
 
 ### Variabili
 
@@ -151,49 +141,77 @@
 | auto    | on    |
 | display | RA    |
 
-## 9 - step
+## 6 - step
 
 ### Variabili
 
 | var    | state  |
 | ------ | ------ |
-| chan   | 1     |
+| chan   | 1      |
 | filter | filter |
-| rate   | rate |
-| auto | on |
+| rate   | rate   |
+| auto   | on     |
 | unità  | query? |
-| shift  | off |
-| step | step |
+| shift  | off    |
+| step   | step   |
 
-## 10 - scan
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| shift  | 8          |
+
+## 7 - scan
 
 ### Variabili
 
 | var    | state  |
 | ------ | ------ |
-| chan   | 1     |
+| chan   | 1      |
 | filter | filter |
-| rel | rel |
-| rate   | rate |
-| auto | on |
+| rel    | rel    |
+| rate   | rate   |
+| auto   | on     |
 | unità  | query? |
-| shift  | off |
-| scan | scan |
+| shift  | off    |
+| scan   | scan   |
 
-## 11 - v1-v2
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| shift  | 8          |
+
+## 8 - shift_bis
 
 ### Variabili
 
 | var    | state  |
 | ------ | ------ |
-| chan   | 1     |
-| rate | rate |
-| filter | filter |
-| rel | rel |
-| auto | on |
-| display | d |
+| shift  | on     |
 
-## 12 - type_analog
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| scan   | ?          |
+
+Quando viene premuto scan torna allo stato precedente, per risolvere il problema senza dover tener traccia dello stato precendente conviene riportare sia lo strumento fisico che quello virtuale allo stato 0.
+
+## 9 - v1-v2
+
+### Variabili
+
+| var     | state  |
+| ------  | ------ |
+| chan    | 1      |
+| rate    | rate   |
+| filter  | filter |
+| rel     | rel    |
+| auto    | on     |
+| display | d      |
+
+## 10 - type_analog
 
 ### Variabili
 
@@ -202,7 +220,17 @@
 | chan    | chan                |
 | display | **analog**+(on/off) |
 
-## 13 - type_analog_bis
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| right  | 11         |
+| up     | ?          |
+| down   | 12         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 11 - type_analog_bis
 
 ### Variabili
 
@@ -211,7 +239,15 @@
 | chan    | chan                |
 | display | analog+**(on/off)** |
 
-## 14 - type_digital
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| left   | 10         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 12 - type_digital
 
 ### Variabili
 
@@ -220,7 +256,17 @@
 | chan    | chan                 |
 | display | **digital**+(on/off) |
 
-## 15 - type_digital_bis
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| lright | 13         |
+| up     | 10         |
+| down   | 14         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 13 - type_digital_bis
 
 ### Variabili
 
@@ -229,7 +275,15 @@
 | chan    | chan                 |
 | display | digital+**(on/off)** |
 
-## 16 - type_window
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| left   | 12         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 14 - type_window
 
 ### Variabili
 
@@ -238,7 +292,16 @@
 | chan    | chan                  |
 | display | window+**(settings)** |
 
-## 17 - tcoupl_units
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| enter  | ?          |
+| exit   | ?          |
+| up     | ?          |
+| down   | ?          |
+
+## 15 - tcoupl_units
 
 ### Variabili
 
@@ -247,7 +310,17 @@
 | chan    | chan                 |
 | display | **units**+(settings) |
 
-## 18 - tcoupl_units_bis
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| rght   | 16         |
+| up     | ?          |
+| down   | 17         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 16 - tcoupl_units_bis
 
 ### Variabili
 
@@ -256,7 +329,15 @@
 | chan    | chan                 |
 | display | units+**(settings)** |
 
-## 19 - tcoupl_sens
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| left   | 15         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 17 - tcoupl_sens
 
 ### Variabili
 
@@ -265,7 +346,17 @@
 | chan    | chan                |
 | display | **sens**+(settings) |
 
-## 20 - tcoupl_sens_bis
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| right  | 18         |
+| up     | 16         |
+| down   | 19         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 18 - tcoupl_sens_bis
 
 ### Variabili
 
@@ -274,7 +365,15 @@
 | chan    | chan                |
 | display | sens+**(settings)** |
 
-## 21 - tcoulp_type
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| left   | 17         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 19 - tcoulp_type
 
 ### Variabili
 
@@ -283,7 +382,17 @@
 | chan    | chan                |
 | display | **type**+(settings) |
 
-## 22 - tcoulp_type_bis
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| right  | 20         |
+| up     | 17         |
+| down   | 21         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 20 - tcoulp_type_bis
 
 ### Variabili
 
@@ -292,7 +401,13 @@
 | chan    | chan                |
 | display | type+**(settings)** |
 
-## 23 - tcoulp_junc
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| left   | 19         |
+
+## 21 - tcoulp_junc
 
 ### Variabili
 
@@ -301,7 +416,17 @@
 | chan    | chan                |
 | display | **junc**+(settings) |
 
-## 24 - tcoulp_junc_bis
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| right  | 22         |
+| up     | 19         |
+| down   | ?          |
+| enter  | ?          |
+| exit   | ?          |
+
+## 22 - tcoulp_junc_bis
 
 ### Variabili
 
@@ -309,3 +434,26 @@
 | ------- | ------------------- |
 | chan    | chan                |
 | display | junc+**(settings)** |
+
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| left   | 11         |
+| enter  | ?          |
+| exit   | ?          |
+
+## 23 - Lsync
+
+### Variabili
+
+| var     | state                 |
+| ------- | --------------------- |
+| display | linesync+**(on/off)** |
+
+### Passaggi di stato
+
+| button | next state |
+| ------ | ---------- |
+| enter  | ?          |
+| exit   | ?          |
