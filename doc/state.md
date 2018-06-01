@@ -555,7 +555,7 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 | ----- | ----- |
 | shift | on    |
 
-###Passaggi di stato
+### Passaggi di stato
 
 | **button** | **next state** |
 | ---------- | -------------- |
@@ -567,7 +567,7 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 | ---- | ----- |
 | chan | chan  |
 
-###Passaggi di stato
+### Passaggi di stato
 
 | button     | next state             |
 | ---------- | ---------------------- |
@@ -579,7 +579,7 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 | enter      | save type_rdgs<br />27 |
 | tastierino | on                     |
 
-##27 - Type_type 
+## 27 - Type_type 
 
 ### Variabili
 
