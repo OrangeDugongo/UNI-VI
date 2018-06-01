@@ -70,14 +70,14 @@
 
 | button | next state                                   |
 | ------ | -------------------------------------------- |
-| DCV2   | 2                                            |
+| DCV1   | 0                                            |
 | shift  | 2.1                                          |
-| rel    | 0: rel -> !rel                               |
-| filt   | 0: filter --> !filter                        |
-| up     | 0: unità --> query?x10<br />    auto --> off |
-| down   | 0: unità --> query?:10<br />    auto --> off |
-| auto   | 0: auto --> !auto                            |
-| rate   | 0: rate --> rate++                           |
+| rel    | 2: rel -> !rel                               |
+| filt   | 2: filter --> !filter                        |
+| up     | 2: unità --> query?x10<br />    auto --> off |
+| down   | 2: unità --> query?:10<br />    auto --> off |
+| auto   | 2: auto --> !auto                            |
+| rate   | 2: rate --> rate++                           |
 | digits | display --> display++                        |
 | temp1  | 3                                            |
 | temp2  | 4                                            |
@@ -99,14 +99,14 @@
 
 ### Passagi di stato
 
-| button | next state                                   |
-| ------ | -------------------------------------------- |
-| DCV1   | 0                                            |
-| DCV2   | 2                                            |
-| shift  | 3.1                                          |
-| temp2  | 4                                            |
-| filt   | 0: filter --> !filter                        |
-| v1/v2  | 5                                            |
+| button | next state            |
+| ------ | --------------------- |
+| DCV1   | 0                     |
+| DCV2   | 2                     |
+| shift  | 3.1                   |
+| temp2  | 4                     |
+| filt   | 3: filter --> !filter |
+| v1/v2  | 5                     |
 
 ## 4 - temp2
 
@@ -128,7 +128,7 @@
 | DCV2   | 2                     |
 | shift  | 4.1                   |
 | temp1  | 3                     |
-| filt   | 0: filter --> !filter |
+| filt   | 4: filter --> !filter |
 | v1/v2  | 5                     |
 
 ## 5 - v1/v2
@@ -141,6 +141,24 @@
 | rate    | rate  |
 | auto    | on    |
 | display | RA    |
+
+### Passaggi di stato
+
+| button | **next state**     |
+| ------ | ------------------ |
+| DCV1   | 0                  |
+| DCV2   | 2                  |
+| temp1  | 3                  |
+| temp2  | 4                  |
+| rate   | 5:rate --> rate++  |
+| filt   | 5: filt --> !filt  |
+| rel    | 5: rel --> !rel    |
+| auto   | 5: auto --> !auto  |
+| up     | query<br />range++ |
+| down   | query<br />range-- |
+| shift  | 5.1                |
+
+
 
 ## 6 - step
 
@@ -158,9 +176,11 @@
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| shift  | 8          |
+| button | next state      |
+| ------ | --------------- |
+| shift  | 8               |
+| scan   | 7               |
+| rel    | 6: rel --> !rel |
 
 ## 7 - scan
 
@@ -179,11 +199,13 @@
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| shift  | 8          |
+| button | next state      |
+| ------ | --------------- |
+| shift  | 8               |
+| step   | 6               |
+| rel    | 7: rel --> !rel |
 
-## 8 - shift_bis
+## 8 - shift_bis_volt
 
 ### Variabili
 
@@ -195,7 +217,7 @@
 
 | button | next state |
 | ------ | ---------- |
-| scan   | ?          |
+| scan   | 2          |
 
 Quando viene premuto scan torna allo stato precedente, per risolvere il problema senza dover tener traccia dello stato precendente conviene riportare sia lo strumento fisico che quello virtuale allo stato 0.
 
@@ -212,6 +234,25 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 | auto    | on     |
 | display | d      |
 
+###Passaggi di stato
+
+| button | next state         |
+| ------ | ------------------ |
+| DCV1   | 0                  |
+| DCV2   | 2                  |
+| temp1  | 3                  |
+| temp2  | 4                  |
+| filt   | 9: filt --> !filt  |
+| rel    | 9: rel -->!rel     |
+| auto   | 9: auto --> !auto  |
+| up     | query<br />range++ |
+| down   | query<br />range-- |
+| step   | 6                  |
+| scan   | 7                  |
+| digit  | 9: digit++         |
+
+
+
 ## 10 - type_analog
 
 ### Variabili
@@ -226,10 +267,15 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 | button | next state |
 | ------ | ---------- |
 | right  | 11         |
-| up     | ?          |
+| left   | 11         |
+| up     | 12         |
 | down   | 12         |
-| enter  | ?          |
-| exit   | ?          |
+| enter  | 12         |
+| exit   | chan       |
+| DCV1   | 0          |
+| DCV2   | 2          |
+| temp1  | 3          |
+| temp2  | 4          |
 
 ## 11 - type_analog_bis
 
@@ -242,11 +288,18 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| left   | 10         |
-| enter  | ?          |
-| exit   | ?          |
+| button | next state          |
+| ------ | ------------------- |
+| left   | 10                  |
+| right  | 10                  |
+| up     | 11: change analog   |
+| down   | 11: change analog   |
+| enter  | 12<br />save analog |
+| exit   | chan                |
+| DCV1   | 0                   |
+| DCV2   | 2                   |
+| temp1  | 3                   |
+| temp2  | 4                   |
 
 ## 12 - type_digital
 
@@ -259,13 +312,17 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| lright | 13         |
-| up     | 10         |
-| down   | 14         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state                                   |
+| ---------- | -------------------------------------------- |
+| left/right | 13                                           |
+| up         | 10                                           |
+| down       | 10                                           |
+| enter      | 12: if digital==on --> 14<br />else --> chan |
+| exit       | chan                                         |
+| DCV1       | 0                                            |
+| DCV2       | 2                                            |
+| temp1      | 3                                            |
+| temp2      | 4                                            |
 
 ## 13 - type_digital_bis
 
@@ -278,11 +335,16 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| left   | 12         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state                                   |
+| ---------- | -------------------------------------------- |
+| left/right | 12                                           |
+| up/down    | 13: digital --> !digital                     |
+| enter      | 13: if digital==on --> 14<br />else --> chan |
+| exit       | chan                                         |
+| DCV1       | 0                                            |
+| DCV2       | 2                                            |
+| temp1      | 3                                            |
+| temp2      | 4                                            |
 
 ## 14 - type_window
 
@@ -297,10 +359,14 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 | button | next state |
 | ------ | ---------- |
-| enter  | ?          |
-| exit   | ?          |
-| up     | ?          |
-| down   | ?          |
+| enter  | 26         |
+| exit   | chan       |
+| DCV1   | 0          |
+| DCV2   | 2          |
+| temp1  | 3          |
+| temp2  | 4          |
+| up     | window++   |
+| down   | window--   |
 
 ## 15 - tcoupl_units
 
@@ -313,13 +379,17 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| rght   | 16         |
-| up     | ?          |
-| down   | 17         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state |
+| ---------- | ---------- |
+| right/left | 16         |
+| up         | 21         |
+| down       | 17         |
+| enter      | 17         |
+| exit       | chan       |
+| DCV1       | 0          |
+| DCV2       | 2          |
+| temp1      | 3          |
+| temp2      | 4          |
 
 ## 16 - tcoupl_units_bis
 
@@ -332,11 +402,16 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| left   | 15         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state                |
+| ---------- | ------------------------- |
+| left/right | 15                        |
+| enter      | save tcoupl_units<br />17 |
+| exit       | chan                      |
+| up/down    | change tcoupl_units       |
+| DCV1       | 0                         |
+| DCV2       | 2                         |
+| temp1      | 3                         |
+| temp2      | 4                         |
 
 ## 17 - tcoupl_sens
 
@@ -349,13 +424,14 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| right  | 18         |
-| up     | 16         |
-| down   | 19         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state |
+| ---------- | ---------- |
+| right/left | 18         |
+| up         | 16         |
+| down       | 19         |
+| enter      | 19         |
+| exit       | chan       |
+| DCV1       | 0          |
 
 ## 18 - tcoupl_sens_bis
 
@@ -368,11 +444,13 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| left   | 17         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state               |
+| ---------- | ------------------------ |
+| left/right | 17                       |
+| enter      | save tcoupl_sens<br />19 |
+| exit       | chan                     |
+| up/down    | tcoupl_sens++            |
+| DCV1       | 0                        |
 
 ## 19 - tcoulp_type
 
@@ -385,13 +463,14 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| right  | 20         |
-| up     | 17         |
-| down   | 21         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state |
+| ---------- | ---------- |
+| right/left | 20         |
+| up         | 17         |
+| down       | 21         |
+| enter      | 21         |
+| exit       | chan       |
+| DCV1       | 0          |
 
 ## 20 - tcoulp_type_bis
 
@@ -404,9 +483,13 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| left   | 19         |
+| button     | next state               |
+| ---------- | ------------------------ |
+| left/right | 19                       |
+| up/down    | change tcoupl_type       |
+| enter      | save tcoupl_type<br />21 |
+| exit       | chan                     |
+| DCV1       | 0                        |
 
 ## 21 - tcoulp_junc
 
@@ -419,13 +502,14 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| right  | 22         |
-| up     | 19         |
-| down   | ?          |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state |
+| ---------- | ---------- |
+| right/left | 22         |
+| up         | 19         |
+| down       | 15         |
+| enter      | chan       |
+| exit       | chan       |
+| DCV1       | 0          |
 
 ## 22 - tcoulp_junc_bis
 
@@ -438,11 +522,13 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| left   | 11         |
-| enter  | ?          |
-| exit   | ?          |
+| button     | next state                |
+| ---------- | ------------------------- |
+| left/right | 21                        |
+| enter      | save coupl_junc<br />chan |
+| exit       | chan                      |
+| up/down    | change tcoupl_junc        |
+| DCV1       | 0                         |
 
 ## 23 - Lsync
 
@@ -454,7 +540,63 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 
 ### Passaggi di stato
 
-| button | next state |
-| ------ | ---------- |
-| enter  | ?          |
-| exit   | ?          |
+| button  | next state           |
+| ------- | -------------------- |
+| enter   | save lsync<br />chan |
+| exit    | chan                 |
+| up/down | change lsync         |
+| DCV1    | 0                    |
+
+
+## 25- shift_bis_temp
+
+### Variabili
+
+| var   | state |
+| ----- | ----- |
+| shift | on    |
+
+### Passaggi di stato
+
+| **button** | **next state** |
+| ---------- | -------------- |
+| scan       | 4              |
+
+## 26 - Type_RDGS
+
+| var  | state |
+| ---- | ----- |
+| chan | chan  |
+
+### Passaggi di stato
+
+| button     | next state             |
+| ---------- | ---------------------- |
+| DCV1       | 0                      |
+| DCV2       | 2                      |
+| temp1      | 3                      |
+| temp2      | 4                      |
+| exit       | chan                   |
+| enter      | save type_rdgs<br />27 |
+| tastierino | on                     |
+
+## 27 - Type_type 
+
+### Variabili
+
+| var  | state |
+| ---- | ----- |
+| chan | chan  |
+
+### Passaggi di stato
+
+| button  | next state               |
+| ------- | ------------------------ |
+| DCV1    | 0                        |
+| DCV2    | 2                        |
+| temp1   | 3                        |
+| temp2   | 4                        |
+| enter   | save type_type<br />chan |
+| exit    | chan                     |
+| up/down | type_type++              |
+
