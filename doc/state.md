@@ -19,8 +19,8 @@
 
 | button | next state                                   |
 | ------ | -------------------------------------------- |
-| DCV1   | 0                                            |
-| shift  | 2.1                                          |
+| DCV2   | 2                                            |
+| shift  | 0.1                                          |
 | rel    | 0: rel -> !rel                               |
 | filt   | 0: filter --> !filter                        |
 | up     | 0: unità --> query?x10<br />    auto --> off |
