@@ -50,6 +50,7 @@
 | filt   | 10         |
 | temp2  | 15         |
 | acal   | 23         |
+| shift  | !shift     |
 
 ## 2 - ch2
 
