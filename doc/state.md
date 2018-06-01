@@ -234,7 +234,7 @@ Quando viene premuto scan torna allo stato precedente, per risolvere il problema
 | auto    | on     |
 | display | d      |
 
-###Passaggi di stato
+### Passaggi di stato
 
 | button | next state         |
 | ------ | ------------------ |
